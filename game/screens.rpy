@@ -1498,7 +1498,92 @@ define bubble.expand_area = {
     "thought" : (0, 0, 0, 0),
 }
 
+################################################################################
+## Inventory
+################################################################################
 
+screen inventory_display_toggle:
+    zorder 92
+    frame:
+        background "#26203b99"
+        xalign 0.05
+        yalign 0.1
+
+        textbutton "Backpack":
+            action ToggleScreen("inventory_item_description")
+
+    on "hide" action Hide("inventory_item_description")
+
+
+default item_descriptions = {"bone" : "a bone", "bubble" : "it's a speech bubble", "broom" : "it sweeps. or rather, you do. with it.", "Cholula" : "yum!"}
+default inventory_items = []
+default item_description = ""
+
+
+
+
+style inv_button is frame:
+    xsize 200
+    ysize 100
+
+style inv_button_text:
+    xalign 0.5
+    yalign 0.5
+
+screen inventory_item_description:
+    # use this based on your preference
+    # modal True
+    window:
+        background "#AAA9"
+        xsize 600
+        ysize 150
+        xalign 0.5
+        yalign 0.3
+        text item_description:
+            xfill True
+            yfill True
+
+    window:
+        background "#99F9"
+        xsize 1290
+        ysize 200
+        xalign 0.5
+        yalign 0.1
+        hbox:
+            box_wrap True
+            box_wrap_spacing 10
+            spacing 10
+            xoffset 20
+            yoffset 20
+            style_prefix "inv"
+            for item in inventory_items:
+                textbutton item:
+                    action SetVariable("item_description", item_descriptions.get(item))
+                    unhovered SetVariable("item_description", "")
+
+                    selected False
+                    hovered SetVariable("item_description", item_descriptions.get(item))
+
+
+
+    on "hide" action SetVariable("item_description", "")
+
+################################################################################
+## Hidden objects
+################################################################################
+default items_found = 0
+default total_hidden = 1
+default hidden_items = {"gui/bubble.png": [480,120]}
+
+screen hidden_objects:
+    for item, position in hidden_items.items():
+                imagebutton:
+                    idle item
+                    action [Hide(item), SetVariable("items_found", items_found + 1), Jump("hidden_objects_check")]
+                    xpos position[0] ypos position[1]
+                    focus_mask True
+
+            
 
 ################################################################################
 ## Mobile Variants
