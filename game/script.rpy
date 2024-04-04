@@ -12,6 +12,14 @@ label start:
     jump hidden_objects
     return
 
+screen thoughtbutton:
+    textbutton "button":
+        action Call("addItem", "bone")
+
+label addItem(item):
+    $ inventory_items.append(item)
+
+
 
 label hidden_objects:
 
@@ -20,7 +28,9 @@ label hidden_objects:
     # images directory to show it.
     show screen hidden_objects
     show screen inventory_display_toggle
-    $ inventory_items.append("bone")
+    show screen thoughtbutton
+    
+
     pause
    
 
