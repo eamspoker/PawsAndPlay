@@ -1,10 +1,10 @@
-2024-04-04 18:31:29 UTC
+2024-04-08 21:13:56 UTC
 macOS-12.3-arm64-arm-64bit
 Ren'Py 8.2.1.24030407
 
-Early init took 0.03s
+Early init took 0.02s
 Loading error handling took 0.02s
-Loading script took 0.05s
+Loading script took 0.06s
 Loading save slot metadata took 0.02s
 Loading persistent took 0.00s
 Running init code took 0.02s
@@ -29,7 +29,7 @@ Prepare screens took 0.03s
 Save pyanalysis. took 0.00s
 Save bytecode. took 0.02s
 Running _start took 0.00s
-Interface start took 0.11s
+Interface start took 0.09s
 
 Initializing gl2 renderer:
 primary display bounds: (0, 0, 1512, 982)
@@ -41,3 +41,10 @@ Version: b'2.1 Metal - 76.3'
 Display Info: None
 Screen sizes: virtual=(1920, 1080) physical=(1326, 746) drawable=(2652, 1492)
 Maximum texture size: 4096x4096
+Cleaning stores took 0.00s
+Init translation took 0.00s
+Build styles took 0.00s
+Load screen analysis took 0.02s
+Analyze screens took 0.00s
+Prepare screens took 0.00s
+Running _start took 0.00s

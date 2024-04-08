@@ -1505,7 +1505,7 @@ define bubble.expand_area = {
 screen inventory_display_toggle:
     zorder 92
     frame:
-        background "#26203b99"
+        background "#26203bff"
         xalign 0.05
         yalign 0.1
 
@@ -1515,11 +1515,10 @@ screen inventory_display_toggle:
     on "hide" action Hide("inventory_item_description")
 
 
-default item_descriptions = {"bone" : "a bone", "bubble" : "it's a speech bubble", "broom" : "it sweeps. or rather, you do. with it.", "Cholula" : "yum!"}
+default item_descriptions = {"images/bowls.jpg": "Food bowl"}
+default inventory_icons = {"images/bowls.jpg": "images/bowls_icon.png"}
 default inventory_items = []
 default item_description = ""
-
-
 
 
 style inv_button is frame:
@@ -1534,19 +1533,19 @@ screen inventory_item_description:
     # use this based on your preference
     # modal True
     window:
-        background "#AAA9"
-        xsize 600
+        background "#aaaaaaff"
+        xsize 200
         ysize 150
-        xalign 0.5
-        yalign 0.3
+        xalign 0.05
+        yalign 0.2
         text item_description:
             xfill True
             yfill True
 
     window:
-        background "#99F9"
-        xsize 1290
-        ysize 200
+        background "#3e3108ff"
+        xsize 1080
+        ysize 450
         xalign 0.5
         yalign 0.1
         hbox:
@@ -1557,10 +1556,12 @@ screen inventory_item_description:
             yoffset 20
             style_prefix "inv"
             for item in inventory_items:
-                textbutton item:
+                imagebutton:
+                    xsize 200
+                    ysize 200
+                    idle inventory_icons[item]
                     action SetVariable("item_description", item_descriptions.get(item))
                     unhovered SetVariable("item_description", "")
-
                     selected False
                     hovered SetVariable("item_description", item_descriptions.get(item))
 
@@ -1573,17 +1574,64 @@ screen inventory_item_description:
 ################################################################################
 default items_found = 0
 default total_hidden = 1
-default hidden_items = {"gui/bubble.png": [480,120]}
+# x, y, if it's been found, checklist text, color of checklist text
+default hidden_items = {"images/bowls.jpg": [250,920,False,"-Food Bowl", "#000000"],
+                        }
+
+init python:
+    def findItem(item):
+        inventory_items.append(item)
+        hidden_items[item][2] = True
+        hidden_items[item][3] = "-{s}" + hidden_items[item][3][1:] + "{/s}"
+        renpy.jump("decide")
+    
+   
+        
+
 
 screen hidden_objects:
     for item, position in hidden_items.items():
-                imagebutton:
-                    idle item
-                    action [Hide(item), SetVariable("items_found", items_found + 1), Jump("hidden_objects_check")]
-                    xpos position[0] ypos position[1]
-                    focus_mask True
+                if not position[2]:
+                    imagebutton:
+                        idle item
+                        action [SetVariable("items_found", items_found + 1), Function(findItem, item)]
+                        xpos position[0] ypos position[1]
+                        focus_mask True
 
-            
+
+# default checkbox_items = {"images/bowls.jpg":["-Food Bowl", False],
+#                             "aaaaa":["-Water Bowl", False],
+#                             "aaa":["-Leash/harness", False],
+#                             "a/bowls.jpg":["-Soap/Shampoo/Conditioner/brush", False],
+#                             "imageks/bowls.jpg":["-Toothbrush & toothpaste", False],
+#                             "c/bowls.jpg":["-Dog toys", False],
+#                             "e/bowls.jpg":["-Medicine from vet appointments", False],
+#                             "e/bowls.jpg":["-Pictures of playdates with other dogs", False]
+#                             }
+screen checkbox:
+    window:
+        background "#ffffffff"
+        xsize 250
+        ysize 850
+        xalign 1.0
+        yalign 0.0
+        hbox:
+            box_wrap True
+            box_wrap_spacing 20
+            spacing 20
+            xoffset 20
+            yoffset 20
+            style_prefix "inv"
+            for item in hidden_items.values():
+                text item[3]:
+                    color item[4]
+                    xsize 200
+                    ysize 200
+                    xfill True
+                    yfill True
+
+
+
 
 ################################################################################
 ## Mobile Variants
