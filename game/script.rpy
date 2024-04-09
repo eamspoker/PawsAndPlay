@@ -55,13 +55,23 @@ label start:
 
 
 
-label decide:
-    "Hmmmm... does this seem right?"
+label decide(item):
+    $ findItem(item)
+    y "Hmmmm... does this seem like it fulfills Scotty's needs?"
     menu:
         "Yes!":
-            jump hidden_objects_check
+            if isItemGood(item):
+                $ colorItem(True, item)
+                jump hidden_objects_check
+                return
         "No...":
-            jump hidden_objects_check
+            if not isItemGood(item):
+                $ colorItem(False, item)
+                jump hidden_objects_check
+                return
+    y "That doesn't seem right... let me try again"
+    call decide(item)
+
    
 
 
@@ -75,6 +85,8 @@ label hidden_objects:
     show screen inventory_display_toggle
     show screen checkbox
     pause
+    return
+    
 
 
 label hidden_objects_check:
@@ -82,8 +94,22 @@ label hidden_objects_check:
         jump found_all
     else:
         jump hidden_objects
+    
 
-
+define s = Character("Scotty")
 label found_all:
-    "you found everything!"
+    y "Okay, I'm all done!"
+    y "I believe that Scotty left because of his food bowl and dirty water bowl did not fulfill his needs."
+    jump scotty_end
+
+label scotty_end:
+    s "I've been watching you through our Mars telescope and I'm so happy you figured it out!"
+    s "If you promise that these issues will never happen again, all the dogs will come back to Earth!"
+    y "I promise!"
+    jump end
+    
+
+label end:
+    "Breaking News: All dogs have returned to Earth!"
+    "... now what about the cats?"
     return

@@ -1515,8 +1515,10 @@ screen inventory_display_toggle:
     on "hide" action Hide("inventory_item_description")
 
 
-default item_descriptions = {"images/bowls.jpg": "Food bowl"}
-default inventory_icons = {"images/bowls.jpg": "images/bowls_icon.png"}
+default item_descriptions = {"images/bowls.jpg": "Food bowl", "images/bowlwater.jpg": "Water bowl", 
+                            "images/soap.jpg": "A bar of soap"}
+default inventory_icons = {"images/bowls.jpg": "images/bowls_icon.png", "images/bowlwater.jpg": "images/bowlwater_icon.png", 
+                            "images/soap.jpg": "images/soap_icon.png"}
 default inventory_items = []
 default item_description = ""
 
@@ -1573,44 +1575,45 @@ screen inventory_item_description:
 ## Hidden objects
 ################################################################################
 default items_found = 0
-default total_hidden = 1
-# x, y, if it's been found, checklist text, color of checklist text
-default hidden_items = {"images/bowls.jpg": [250,920,False,"-Food Bowl", "#000000"],
+
+# x, y, if it's been found, checklist text, color of checklist text, is it good
+default hidden_items = {"images/bowls.jpg": [415,920,False,"-Food Bowl", "#000000", False],
+                        "images/bowlwater.jpg": [250, 920, False, "-Water bowl","#000000", False],
+                        "images/soap.jpg": [750, 300, False, "-Soap","#000000", True],
                         }
+default total_hidden = len(hidden_items.keys())
 
 init python:
     def findItem(item):
         inventory_items.append(item)
         hidden_items[item][2] = True
         hidden_items[item][3] = "-{s}" + hidden_items[item][3][1:] + "{/s}"
-        renpy.jump("decide")
+
+    def colorItem(isYes, decide_item):
+        if isYes:
+            hidden_items[decide_item][4] = "#4bdd63ff"
+        else:
+            hidden_items[decide_item][4] = "#dd4b4bff"
+
+    def isItemGood(item):
+        return hidden_items[item][5]
+
     
    
         
-
 
 screen hidden_objects:
     for item, position in hidden_items.items():
                 if not position[2]:
                     imagebutton:
                         idle item
-                        action [SetVariable("items_found", items_found + 1), Function(findItem, item)]
+                        action [SetVariable("items_found", items_found + 1), Call("decide", item)]
                         xpos position[0] ypos position[1]
                         focus_mask True
 
-
-# default checkbox_items = {"images/bowls.jpg":["-Food Bowl", False],
-#                             "aaaaa":["-Water Bowl", False],
-#                             "aaa":["-Leash/harness", False],
-#                             "a/bowls.jpg":["-Soap/Shampoo/Conditioner/brush", False],
-#                             "imageks/bowls.jpg":["-Toothbrush & toothpaste", False],
-#                             "c/bowls.jpg":["-Dog toys", False],
-#                             "e/bowls.jpg":["-Medicine from vet appointments", False],
-#                             "e/bowls.jpg":["-Pictures of playdates with other dogs", False]
-#                             }
 screen checkbox:
     window:
-        background "#ffffffff"
+        background "images/paper.jpg"
         xsize 250
         ysize 850
         xalign 1.0

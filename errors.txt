@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 58: unexpected EOF while parsing
-    "";
-       ^
+File "game/script.rpy", line 71: end of line expected.
+    jump decide(item)
+               ^
 
 Ren'Py Version: Ren'Py 8.2.1.24030407
-Mon Apr  8 11:26:56 2024
+Tue Apr  9 07:52:40 2024
