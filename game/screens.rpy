@@ -1515,12 +1515,19 @@ screen inventory_display_toggle:
     on "hide" action Hide("inventory_item_description")
 
 
-default item_descriptions = {"images/bowls.jpg": "Food bowl", "images/bowlwater.jpg": "Water bowl", 
-                            "images/soap.jpg": "A bar of soap"}
+default item_descriptions = {"images/bowls.jpg": "picture of Scotty", "images/bowlwater.jpg": "water bowl", 
+                            "images/soap.jpg": "bar of soap"}
 default inventory_icons = {"images/bowls.jpg": "images/bowls_icon.png", "images/bowlwater.jpg": "images/bowlwater_icon.png", 
                             "images/soap.jpg": "images/soap_icon.png"}
+default inventory_options = {"images/bowls.jpg": {"Because it's cruel to take a picture of your pet.": False, "Because your dog opening its mouth in a photo is a bad sign.": False, "Because it's important for dogs to socialize with other dogs, and the only picture was of Scotty alone.": True}, "images/bowlwater.jpg":  {"Because it's important to keep your pet's water clean and this one was dirty.": True, "Because your pet's bowl should never be full.": False, "Because you should never use a metal bowl.": False}, 
+                            "images/soap.jpg": {"Because dogs love to eat soap.": False, "Because it's important to keep your dog well-groomed and clean.": True, "Because it's important to wash your hands before you touch your dog.": False}}
+default hasPresented = {"images/bowls.jpg": False, "images/bowlwater.jpg":  False, 
+                            "images/soap.jpg": False}
 default inventory_items = []
+default temp_items = []
 default item_description = ""
+default strikes = 0
+default presented = 0
 
 
 style inv_button is frame:
@@ -1543,6 +1550,7 @@ screen inventory_item_description:
         text item_description:
             xfill True
             yfill True
+    
 
     window:
         background "#3e3108ff"
@@ -1562,10 +1570,11 @@ screen inventory_item_description:
                     xsize 200
                     ysize 200
                     idle inventory_icons[item]
-                    action SetVariable("item_description", item_descriptions.get(item))
+                    action [ToggleScreen("inventory_item_description"), Call("scotty_talk", item, item_descriptions[item], inventory_options[item], hidden_items[item][5])]
                     unhovered SetVariable("item_description", "")
                     selected False
                     hovered SetVariable("item_description", item_descriptions.get(item))
+            
 
 
 
@@ -1577,7 +1586,7 @@ screen inventory_item_description:
 default items_found = 0
 
 # x, y, if it's been found, checklist text, color of checklist text, is it good
-default hidden_items = {"images/bowls.jpg": [415,920,False,"-Food Bowl", "#000000", False],
+default hidden_items = {"images/bowls.jpg": [800,120,False,"-Picture of Scotty", "#000000", False],
                         "images/bowlwater.jpg": [250, 920, False, "-Water bowl","#000000", False],
                         "images/soap.jpg": [750, 300, False, "-Soap","#000000", True],
                         }
@@ -1588,7 +1597,8 @@ init python:
         inventory_items.append(item)
         hidden_items[item][2] = True
         hidden_items[item][3] = "-{s}" + hidden_items[item][3][1:] + "{/s}"
-
+        renpy.jump("hidden_objects_check")
+    
     def colorItem(isYes, decide_item):
         if isYes:
             hidden_items[decide_item][4] = "#4bdd63ff"
@@ -1607,7 +1617,7 @@ screen hidden_objects:
                 if not position[2]:
                     imagebutton:
                         idle item
-                        action [SetVariable("items_found", items_found + 1), Call("decide", item)]
+                        action [SetVariable("items_found", items_found + 1), Function(findItem, item)]
                         xpos position[0] ypos position[1]
                         focus_mask True
 

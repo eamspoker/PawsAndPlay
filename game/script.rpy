@@ -4,18 +4,155 @@
 # name of the character.
 
 define v = Character("Vet")
-define y = Character("You")
+define name = ""
+
 
 # function for adding an item
 label addItem(item):
     $ inventory_items.append(item)
 
+
+define e = Character("New Anchor")
+define man = Character("Official")
+define player = Character([persistent.mcName])
+define check = False
+screen backpack:
+    # zoom 0.7
+    # window:
+    #     background "black"
+    #     xsize 200
+    #     ysize 200
+    imagebutton:
+        idle "backpack glowing" at backpackPosition
+        action [SetVariable("check", True), Jump("selectBackpackCheck")],
+        xalign 0.7 yalign 0.045
+        focus_mask True
 # The game starts here.
 label start:
+    # Show a background. This uses a placeholder by default, but you can
+    # add a file (named either "bg room.png" or "bg room.jpg") to the
+    # images directory to show it.
+    scene bg studio
+    
+    # This shows a character sprite. A placeholder is used, but you can
+    # replace it by adding a file named "eileen happy.png" to the images
+    # directory.
+    transform tophalf:
+        xalign 0.5 yalign -0.07
+        zoom 0.90
+    
+    transform interviewHalfAnchor:
+        xalign 0.3 yalign -0.16
+        zoom 0.90
+    transform playerHalfFemaleInterview:
+        xalign 0.7 yalign 0.035
+        zoom  0.3
+    transform playerHalfMaleInterview:
+        xalign 0.7 yalign 0.045
+        zoom 0.3
+        xzoom -1.0
+    transform backpackPosition:
+        xalign 0.7 yalign 0.045
+        zoom 0.7
+    # transform backgroudSize:
+    #     zoom 1.2
+    show woman shocked at tophalf
+    # show eileen happy
+    # These display lines of dialogue.
+    e "BREAKING NEWS! Did you hear the latest update on planet earth?"
+    e "All planets on Earth have gone to mars! This is a catastrophe"
+    hide woman
+    scene bg desert1
+    
+    e "We have here some pictures of this planet with no animals in it!"
+    scene bg desert2
+    e "Not one animal - not even a single one! "
+    scene bg desert3
+    e "This is very very astonishing!"
+    scene bg studio
+    show woman shocked at tophalf
+    e "Who will save us now?!"
+    hide woman
+    show bg task
+    man "Hello! I am the Director Of Pets. You must have seen the news"
+    man "We need your help in bringing back the animals. We are choosing you to do this because we have heard of your great negotiation skills and your skills with animals!"
+    man "Hope you don't disappoint us!"
+    menu choices: #menus can have labels
+        "What will you do?"
+        "Yes":
+            $ choice1 = True
+            # jump somewhere_else_maybe
+            man "Good. We will be giving you certain things to help you on your journey! Good luck!"
+            # jump choices 
+        "Hell yes!":
+            $ choice2 = True
+            # jump somewhere_else_maybe
+            man "Good. We will be giving you certain things to help you on your journey! Good luck!"
+            # jump choices
+    scene bg studio
+    show woman shocked at tophalf
+    e "BREAKING NEWS!"
+    e "We have a new update on the no pet situation!"
+    e "Someone has volunteered to go negotiate with all the pets!"
+    e "Let's go interview that person before they vanish off to mars."
+    menu gender: #menus can have labels
+        "What gender would your character be?"
+        "Female":
+            $ female = True
+            # jump somewhere_else_maybe
+            # man "Good. We will be giving you certain things to help you on your journey! Good luck!"
+            # jump choices 
+        "Male":
+            $ female = False
+            # jump somewhere_else_maybe
+            # man "Good. We will be giving you certain things to help you on your journey! Good luck!"
+            # jump choices
+    if female:
+        scene bg studio
+        show woman interviewing at interviewHalfAnchor
+        show player female interviewing at playerHalfFemaleInterview
+        e "Our player is an amazing girl!"
+        e "Let's find out who is our saviour?"
+        $ name += renpy.input("Name your character!", "BadMustard").strip() or "BadMUstard"
+        e "Welcome, [name] to the news set."
+        e "I am pretty sure you must be nervous about this task. Can we know more about your background? We would love to -"
+        # else:
+        #     e "[persistent.mcName], you came back"
+        #     e "if you love something set it free, if it come back KILL IT BEFORE IT GETS AWAY AGAIN..."
+    else:
+        scene bg studio
+        show woman interviewing at interviewHalfAnchor
+        show player male interviewing at playerHalfMaleInterview
+        e "Our player is an amazing guy!"
+       
+        $ name = renpy.input("Name your character!", "BadMustard").strip() or "BadMUstard"
+        e "Welcome, [name] to the news set."
+        e "I am pretty sure you must be nervous about this task. Can we know more about your background? We would love to -"
+    
+    hide woman shocked
+    hide player female 
+    show bg task
+    man "Enough with the interviews and what not. We don't have time. The world is collapsing without the animals. The ecosystem is going to hell! We shall all perish if [name] does not succeed in her task. Stop holding her back and let her go."
+    man "[name], your first mission is to bring back this one dog named Scotty."
+    man "Start off by investigating Scotty's old house on Earth, then we will send you to Mars to convince him."
+    man "Off you go! Our top veterarian will answer any of your questions before you start your investigation."
+    hide bg task
+    jump emily_start
+
+define y = Character(name)
+# The game starts here.
+label emily_start:
+    call clinic
+    jump hidden_objects
+    return
+
+    
+
+label clinic:
     scene vetclinic
     v "Hi, how may I help you today?"
-    y "I was chosen to bring back the pets from Mars to Earth."
-    y "But before they come, they wanted me to interview a vet expert to learn more about how pets SHOULD be taken care of."
+    player "I was chosen to bring back the pets from Mars to Earth."
+    player "But before they come, they wanted me to interview a vet expert to learn more about how pets SHOULD be taken care of."
     v "Oooh, we thought you looked famillar -- we remember seeing you on the news!"
     v "We would love to help, what questions do you have?"
     menu questions:
@@ -45,34 +182,15 @@ label start:
 
 
     menu questionsContinue:
-        v "I know I just gave you a lot of information -- did you get all that?"
+        v "Would you like to ask another question?"
         "No":
             jump questions
         "Yes":
-            y "Thank you so much for all your incredibly helpful information!"
-            y "I learned a lot and now know what items to look for in Scotty's home environment to figure out why he left!"
-    jump hidden_objects
+            player "Thank you so much for all your incredibly helpful information!"
+            player "I learned a lot and now know what items to look for in Scotty's home environment to figure out why he left!"
+    return
 
 
-
-label decide(item):
-    $ findItem(item)
-    y "Hmmmm... does this seem like it fulfills Scotty's needs?"
-    menu:
-        "Yes!":
-            if isItemGood(item):
-                $ colorItem(True, item)
-                jump hidden_objects_check
-                return
-        "No...":
-            if not isItemGood(item):
-                $ colorItem(False, item)
-                jump hidden_objects_check
-                return
-    y "That doesn't seem right... let me try again"
-    call decide(item)
-
-   
 
 
 label hidden_objects:
@@ -80,12 +198,12 @@ label hidden_objects:
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.
-    scene bg room
+    scene bg bedroom
     show screen hidden_objects
     show screen inventory_display_toggle
     show screen checkbox
     pause
-    return
+
     
 
 
@@ -94,22 +212,105 @@ label hidden_objects_check:
         jump found_all
     else:
         jump hidden_objects
-    
+
+
 
 define s = Character("Scotty")
 label found_all:
-    y "Okay, I'm all done!"
-    y "I believe that Scotty left because of his food bowl and dirty water bowl did not fulfill his needs."
-    jump scotty_end
+    player "Okay, I'm all done!"
+    player "Let's head back to Mars!"
+    $ temp_items = inventory_items
+    jump scotty_talk_start
 
-label scotty_end:
-    s "I've been watching you through our Mars telescope and I'm so happy you figured it out!"
-    s "If you promise that these issues will never happen again, all the dogs will come back to Earth!"
-    y "I promise!"
-    jump end
+
+label scotty_talk_start:
+    scene mars scenery
+    show screen inventory_display_toggle
+    hide screen checkbox
+    show dog
+    $ print(inventory_items)
+    s "Tell me, what have you learned back on Earth?"
+    $ isPresenting = True
+
+label scotty_talk_loop:
+    pause
+
+label scotty_talk_check:
+    if strikes > 1:
+        jump scotty_fail
+
+    if presented == 0:
+        jump scotty_talk_loop
+
+    if presented < total_hidden:
+        s "What else do you have to show me?"
+        jump scotty_talk_loop
+    else:
+        jump end
     
 
+
+label scotty_talk(key, name, optionDict, isGood):
+    if not isPresenting:
+        return
+    if hasPresented[key]:
+        s "You've already told me about this."
+        return
+    s "Tell me, what is this [name] evidence of?"
+    $ presented += 1
+    $ hasPresented[key] = True
+    menu:
+        "Humanity treating pets well!":
+            if not isGood:
+                jump scotty_strike
+        "Something that humans need to do better!":
+            if isGood:
+                jump scotty_strike
+    
+    s "Hmmm... why do you think this is evidence of that?"
+    $ optionArray = list(optionDict.keys())
+    menu:
+        "[optionArray[0]]":
+            if(not optionDict[optionArray[0]]):
+                jump scotty_strike
+        "[optionArray[1]]":
+            if(not optionDict[optionArray[1]]):
+                jump scotty_strike
+        "[optionArray[2]]":
+            if(not optionDict[optionArray[2]]):
+                jump scotty_strike
+
+    s "I guess that makes sense?"    
+    
+    jump scotty_talk_check
+
+
+
+label scotty_strike:
+    s ".... I don't think that makes any sense."
+    "[[Scotty was unconvinced by your explanation]"
+    $ strikes += 1
+    jump scotty_talk_check
+
+label scotty_fail:
+    s "I don't think you really understand why I left."
+    $ isPresenting = False
+    $ strikes = 0
+    $ presented = 0
+    python:
+        for k in list(hasPresented.keys()):
+            hasPresented[k] = False
+    menu:
+        "I do understand! I'll explain it right, let me try again!":
+            jump scotty_talk_loop
+        "You're right... I think I should talk to an expert about this":
+            call clinic
+            jump scotty_talk_start
+    
+        
 label end:
+    s "I'm so happy you figured it out -- if you promise that these issues will never happen again, all the dogs will come back to Earth!"
+    player "I promise!"
     "Breaking News: All dogs have returned to Earth!"
     "... now what about the cats?"
-    return
+    jump start

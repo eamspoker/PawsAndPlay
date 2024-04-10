@@ -1,38 +1,28 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "renpy/common/00start.rpy", line 193, in script
-    python:
-  File "renpy/common/00start.rpy", line 194, in <module>
-    renpy.execute_default_statement(True)
-  File "game/screens.rpy", line 1584, in execute_default
-    default total_hidden = hidden_items.keys().size()
-  File "game/screens.rpy", line 1584, in <module>
-    default total_hidden = hidden_items.keys().size()
-AttributeError: 'dict_keys' object has no attribute 'size'
+  File "game/script.rpy", line 142, in script
+    define y = Character(name)
+  File "game/script.rpy", line 142, in <module>
+    define y = Character(name)
+NameError: name 'name' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "renpy/common/00start.rpy", line 193, in script
-    python:
-  File "/Users/emilyamspoker/renpy-8.2.1-sdk/renpy/ast.py", line 823, in execute
-    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
-  File "/Users/emilyamspoker/renpy-8.2.1-sdk/renpy/python.py", line 1178, in py_exec_bytecode
-    exec(bytecode, globals, locals)
-  File "renpy/common/00start.rpy", line 194, in <module>
-    renpy.execute_default_statement(True)
-  File "/Users/emilyamspoker/renpy-8.2.1-sdk/renpy/exports.py", line 4090, in execute_default_statement
-    i.execute_default(start)
-  File "game/screens.rpy", line 1584, in execute_default
-    default total_hidden = hidden_items.keys().size()
+  File "game/script.rpy", line 142, in script
+    define y = Character(name)
+  File "/Users/emilyamspoker/renpy-8.2.1-sdk/renpy/ast.py", line 2219, in execute
+    self.set()
+  File "/Users/emilyamspoker/renpy-8.2.1-sdk/renpy/ast.py", line 2233, in set
+    value = renpy.python.py_eval_bytecode(self.code.bytecode)
   File "/Users/emilyamspoker/renpy-8.2.1-sdk/renpy/python.py", line 1202, in py_eval_bytecode
     return eval(bytecode, globals, locals)
-  File "game/screens.rpy", line 1584, in <module>
-    default total_hidden = hidden_items.keys().size()
-AttributeError: 'dict_keys' object has no attribute 'size'
+  File "game/script.rpy", line 142, in <module>
+    define y = Character(name)
+NameError: name 'name' is not defined
 
 macOS-12.3-arm64-arm-64bit arm64
 Ren'Py 8.2.1.24030407
 Paws and Play 1.0
-Tue Apr  9 12:02:48 2024
+Tue Apr  9 17:46:35 2024
