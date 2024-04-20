@@ -6,6 +6,47 @@
 define v = Character("Vet")
 define name = ""
 
+# Define images
+image background = "bg_planet.jpg"
+image dog = "dog.png"
+image bone = "bone.png"
+# Initialize variables
+default bone_found = False
+default trust_level = 0  # Trust level as a percentage
+default trust_level_max = 100  # Maximum trust level
+# define bone_draggable = Draggable(
+#     drag_name="bone",
+#     child=Image("bone.png"),
+#     draggable=True,
+#     xanchor=0.5, yanchor=0.5,
+#     xpos=0.5, ypos=0.5
+# )
+screen trust_meter_screen:
+    frame:
+        xalign 0.5 yalign 0.1
+        vbox:
+            text "Trust Meter" size 22 xalign 0.5
+            null height 5
+            hbox:
+                bar:
+                    xmaximum 300
+                    value VariableValue("trust_level", trust_level_max)
+                    range trust_level_max
+                    left_gutter 0
+                    right_gutter 0
+                    thumb None
+                    thumb_shadow None
+                null width 5
+                text "[trust_level] / [trust_level_max]" size 16
+screen bone_draggable:
+        drag:
+            drag_name "bone"
+            child "bone.png"
+            xpos 0.25
+            ypos 0.25
+            draggable True
+
+
 
 # function for adding an item
 label addItem(item):
@@ -137,7 +178,36 @@ label start:
     man "Start off by investigating Scotty's old house on Earth, then we will send you to Mars to convince him."
     man "Off you go! Our top veterarian will answer any of your questions before you start your investigation."
     hide bg task
-    jump emily_start
+    jump aarthi_start
+
+# Start of the game
+label aarthi_start:
+    scene background
+    show dog at right
+    show screen trust_meter_screen
+    # Main game loop
+    label game_loop:
+        if not bone_found:
+            menu:
+                "Do you want to look for the bone?"
+                "Yes":
+                    $ bone_found = True
+                    "You found a bone!"
+                    show screen bone_draggable 
+                    menu:
+                            "Give the bone to the dog?"
+                            "Yes":
+                                hide bone
+                                $ trust_level += 20  # Increase trust level by 20%
+                                "You give the bone to the dog, and it looks less scared."
+                            "No":
+                                "You decide to keep the bone."
+                "No":
+                    "You decide not to look for the bone right now."
+        else:
+            "There's nothing else to do here for now."
+            # Placeholder for additional game content or ending the game loop
+            jump emily_start
 
 define y = Character(name)
 # The game starts here.
