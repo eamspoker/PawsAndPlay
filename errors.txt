@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 115: invalid syntax
-    default name = renpy.input("Name your character!", "BadMustard").strip() or "BadMUstard"
-             ^
+File "game/screens.rpy", line 1616: expected a keyword argument or end of line.
+    action Function(aaa);
+                        ^
 
 Ren'Py Version: Ren'Py 8.2.1.24030407
-Tue Apr  9 17:45:05 2024
+Tue Apr 23 17:55:47 2024

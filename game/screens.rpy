@@ -1501,34 +1501,57 @@ define bubble.expand_area = {
 ################################################################################
 ## Inventory
 ################################################################################
-
 screen inventory_display_toggle:
     zorder 92
     frame:
-        background "#26203bff"
-        xalign 0.05
-        yalign 0.1
-
-        textbutton "Backpack":
+        xalign 0
+        yalign 0
+        imagebutton:
+            idle "images/backpack_icon.png"
             action ToggleScreen("inventory_item_description")
 
     on "hide" action Hide("inventory_item_description")
 
 
-default item_descriptions = {"images/bowls.jpg": "picture of Scotty", "images/bowlwater.jpg": "water bowl", 
-                            "images/soap.jpg": "bar of soap"}
-default inventory_icons = {"images/bowls.jpg": "images/bowls_icon.png", "images/bowlwater.jpg": "images/bowlwater_icon.png", 
-                            "images/soap.jpg": "images/soap_icon.png"}
-default inventory_options = {"images/bowls.jpg": {"Because it's cruel to take a picture of your pet.": False, "Because your dog opening its mouth in a photo is a bad sign.": False, "Because it's important for dogs to socialize with other dogs, and the only picture was of Scotty alone.": True}, "images/bowlwater.jpg":  {"Because it's important to keep your pet's water clean and this one was dirty.": True, "Because your pet's bowl should never be full.": False, "Because you should never use a metal bowl.": False}, 
-                            "images/soap.jpg": {"Because dogs love to eat soap.": False, "Because it's important to keep your dog well-groomed and clean.": True, "Because it's important to wash your hands before you touch your dog.": False}}
-default hasPresented = {"images/bowls.jpg": False, "images/bowlwater.jpg":  False, 
-                            "images/soap.jpg": False}
+default item_descriptions = {"images/bowls.png": "dirty food bowl", "images/bowlwater.png": "dirty water bowl", 
+                            "images/soap.png": "bar of soap",  "images/bill.png": "paid medical bill", "images/dog_toys.png": "bunch of dog toys", "images/torn_leash.png": "a torn leash"}
+                            
+default inventory_icons = {"images/bowls.png": "images/bowls_icon.png", "images/bowlwater.png": "images/bowlwater_icon.png", 
+                            "images/soap.png": "images/soap_icon.png", "images/bill.png":"images/bill_icon.png", "images/dog_toys.png":"images/dog_toys_icon.png", "images/torn_leash.png":"images/torn_leash_icon.png"}
+
+default inventory_options = {"images/bowlwater.png": {"Its important that your pet has access to clean water and this bowl was dirty": True, 
+                                                "Pets don't get thirsty enough for a full water bowl": False, 
+                                                "Pets don't like drinking from a metal bowl": False}, 
+                            "images/bowls.png": {"Pets don't like to eat kibble from a bowl": False,
+                                                "Pets rather eat from a plate": False,
+                                                "This food bowl is dirty and its important that pets have access to a clean food bowl": True},
+                            "images/soap.png": {"Pets like to eat soap as a treat": False, 
+                                        "Its important for pets to be groomed and cleaned regularly": True, 
+                                        "Pets use bars of soap as toys to play with": False},
+                            "images/bill.png": {"Medicine gives pets superpowers": False, 
+                                        "Vet bills/medicine are evidence that a pet has scheduled doctors appointments to check up on their health": True, 
+                                        "Vet bills/medicine are good but optional to maintain a pet's health": False},
+                            "images/dog_toys.png": {"Dog toys can replace dog friends and socialization": False, 
+                                        "Dog toys signify that a pet is properly socialized and stimulated": True, 
+                                        "Dogs only want rope toys": False},
+                            "images/torn_leash.png": {"Pets don't like to be walked on a leash": False, 
+                                        "Pets would rather sit at home instead of go outside": False, 
+                                        "The leash is torn meaning its not as effective for properly walking Scotty": True},
+                            }
+
+                            
+                            
+
+                                    
+default hasPresented = {"images/bowls.png": False, "images/bowlwater.png": False, 
+                            "images/soap.png": False,  "images/bill.png": False, "images/dog_toys.png": False, "images/torn_leash.png": False}
 default inventory_items = []
 default temp_items = []
 default item_description = ""
 default strikes = 0
 default presented = 0
-
+default lastPlace = ""
+default isPresenting = False
 
 style inv_button is frame:
     xsize 200
@@ -1538,43 +1561,63 @@ style inv_button_text:
     xalign 0.5
     yalign 0.5
 
+screen returnToClinic(currentLabel):
+    frame:
+        xalign 0
+        yalign 0.3
+        window:
+            background "#07b3b0ff"
+            xsize 200
+            ysize 100
+            if lastPlace != "":
+                textbutton "Go back":
+                    action [SetVariable("lastPlace", ""), Jump(lastPlace)]
+            else:
+                textbutton "Visit Vet's Office":
+                    action [SetVariable("lastPlace", currentLabel), SetVariable("isPresenting", False),
+                            Hide("hidden_objects"), Jump("clinic")]
+
+
+
+
 screen inventory_item_description:
     # use this based on your preference
     # modal True
-    window:
-        background "#aaaaaaff"
-        xsize 200
-        ysize 150
-        xalign 0.05
-        yalign 0.2
-        text item_description:
-            xfill True
-            yfill True
+    frame:
+        xalign 0.0
+        yalign 0.14
+        window:
+            background "#aaaaaaff"
+            xsize 200
+            ysize 150
+            text item_description:
+                xfill True
+                yfill True
     
-
-    window:
-        background "#3e3108ff"
-        xsize 1080
-        ysize 450
-        xalign 0.5
-        yalign 0.1
-        hbox:
-            box_wrap True
-            box_wrap_spacing 10
-            spacing 10
-            xoffset 20
-            yoffset 20
-            style_prefix "inv"
-            for item in inventory_items:
-                imagebutton:
-                    xsize 200
-                    ysize 200
-                    idle inventory_icons[item]
-                    action [ToggleScreen("inventory_item_description"), Call("scotty_talk", item, item_descriptions[item], inventory_options[item], hidden_items[item][5])]
-                    unhovered SetVariable("item_description", "")
-                    selected False
-                    hovered SetVariable("item_description", item_descriptions.get(item))
-            
+    frame:
+        xalign 0.4
+        yalign 0
+        window:
+            background "#3e3108ff"
+            xsize 1080
+            ysize 450
+            hbox:
+                box_wrap True
+                box_wrap_spacing 10
+                spacing 10
+                xoffset 20
+                yoffset 20
+                style_prefix "inv"
+                for item in inventory_items:
+                    imagebutton:
+                        xsize 200
+                        ysize 200
+                        idle inventory_icons[item]
+                        action [ToggleScreen("inventory_item_description"), Call("scotty_talk", item, item_descriptions[item], inventory_options[item], hidden_items[item][5])]
+                        unhovered SetVariable("item_description", "")
+                        selected False
+                        hovered SetVariable("item_description", item_descriptions.get(item))
+                
 
 
 
@@ -1586,9 +1629,12 @@ screen inventory_item_description:
 default items_found = 0
 
 # x, y, if it's been found, checklist text, color of checklist text, is it good
-default hidden_items = {"images/bowls.jpg": [800,120,False,"-Picture of Scotty", "#000000", False],
-                        "images/bowlwater.jpg": [250, 920, False, "-Water bowl","#000000", False],
-                        "images/soap.jpg": [750, 300, False, "-Soap","#000000", True],
+default hidden_items = {"images/bowls.png": [150,650,False,"-Food bowl", "#000000", False],
+                        "images/bowlwater.png": [25, 650, False, "-Water bowl","#000000", False],
+                        "images/soap.png": [400, 400, False, "-Soap","#000000", True],
+                        "images/bill.png": [1200, 20, False, "-Medicine & vet bills","#000000", True],
+                        "images/dog_toys.png": [0, 950, False, "-Dog toys","#000000", True],
+                        "images/torn_leash.png": [1400, 150, False, "-Leash","#000000", False],
                         }
 default total_hidden = len(hidden_items.keys())
 
@@ -1607,6 +1653,9 @@ init python:
 
     def isItemGood(item):
         return hidden_items[item][5]
+
+   
+        
 
     
    
