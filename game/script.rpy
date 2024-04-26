@@ -397,7 +397,7 @@ label emily_start:
     v "Oooh, we thought you looked famillar -- we remember seeing you on the news!"
     v "We would love to help!"
     call clinic
-    player "I think I know how to use the evidence from in Scotty's home to explain why he left!"
+    player "I think I know how to use the evidence from Scotty's home to explain why he left!"
     jump scotty_talk_start
     return
 
