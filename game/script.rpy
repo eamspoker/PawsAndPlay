@@ -479,6 +479,7 @@ label hidden_objects_check:
 define s = Character("Scotty")
 label found_all:
     player "Okay, I've finished investigating the house."
+    "[[Click on bag icon to open bag.]"
     hide screen checkbox with easeoutright
     player "I should talk to a veterinary expert to make sense of all of this."
     $ temp_items = inventory_items
