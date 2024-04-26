@@ -2,9 +2,11 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 445: end of line expected.
-    show screen checkbox easeinright
-                         ^
+The label start is defined twice, at File "game/script.rpy", line 100:
+label start:
+and File "game/script.rpy", line 357:
+label start:
+
 
 Ren'Py Version: Ren'Py 8.2.1.24030407
-Fri Apr 26 09:11:48 2024
+Fri Apr 26 13:33:29 2024

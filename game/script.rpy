@@ -167,7 +167,7 @@ label start:
     show bg task
 
     man "Hello! I am the Director Of Pets. You must've seen the news."
-    man "We need your help in bringing back the pets. We are choosing you to do this because we have heard of your great negotiation skills and your skills with pets!"
+    man "We need your help in bringing back the pets. We are choosing you to do this because we have heard of your ability to talk to pets and your great negotiation skills and your skills with pets!"
     man "Hope you don't disappoint us!"
     man "We will be giving you certain things to help you on your journey!"
 
@@ -308,9 +308,9 @@ label selectLevelCheck:
         jump repeat
 
 label portalToMars:
+    show portal_combined
     hide bg map
     hide screen level
-    show portal_combined
     player "Ahhhhh what's happening?"
     jump marsScene
 
@@ -360,7 +360,7 @@ label aarthi_start:
     player "Hello there, Doggo! I've come all the way from Earth to bring you back."
     s "I was expecting you! I'm Scotty."
     player "Hi Scotty. Can you help me understand why all the pets decided to leave Earth?"
-    s "Look-look at dis collar."
+    s "Look at dis collar."
     show collar at upper_position with easeinright
     player "There's a name and an address here."
     s "Yep yep, dat's where me hooman lived."
@@ -378,10 +378,10 @@ label aarthi_start:
                 s "Woof! Take your time. It's big important for all of us."
                 jump reconsider_decision
 label game_progress:
-    player "Let's start by visiting your Earth home!"
+    e "Let's start by visiting your Earth home!"
     jump end_game
 label reconsider_decision:
-    player "I think I can do it."
+    e "I think I can do it."
     jump end_game
 label end_game:
     hide dog
@@ -448,6 +448,7 @@ label hidden_objects_intro:
     player "I guess this is Scotty's house!"
     player "I still have the checklist of things Scotty wanted me to look at."
     show screen checkbox with easeinright
+    show screen checkbox_display with easeinright
     "[[Click on checklist icon to show/hide list.]"
     player "I guess once I go in, I can just put items to my backpack."
     show screen inventory_display_toggle with easeinleft
@@ -495,14 +496,14 @@ label scotty_talk_start:
     show screen returnToClinic("scotty_talk_start")
     $ trust_level = 30
     show screen trust_meter_screen
-    s "Show me what you've learned on Earth."
+    s "What did you find at my hooman's house?"
     $ isPresenting = True
 
 label scotty_talk_loop:
     pause
 
 label scotty_talk_check:
-    if trust_level <= 0 or (presented >= total_hidden and trust_level < 50):
+    if trust_level <= 0 or (presented >= total_hidden and trust_level < 70):
         jump scotty_fail
 
     if presented == 0:
@@ -538,7 +539,7 @@ label scotty_talk(key, name, optionDict, isGood):
                 jump scotty_strike
             if trust_level < 100:
                 $ trust_level += 10 
-    s "Why do you think this is evidence of that?"
+    s "Why?"
     $ optionArray = list(optionDict.keys())
     menu:
         "[optionArray[0]]":
@@ -552,7 +553,7 @@ label scotty_talk(key, name, optionDict, isGood):
                 jump scotty_strike
     if trust_level < 100:
         $ trust_level += 10 
-    s "That's right!" 
+    s "Woof! That's right!" 
     
     
     jump scotty_talk_check
@@ -560,13 +561,13 @@ label scotty_talk(key, name, optionDict, isGood):
 
 
 label scotty_strike:
-    s ".... I don't think that makes any sense."
+    s ".... doesn't make any sense."
     "[[Scotty was unconvinced by your explanation]"
     $ trust_level -= 10
     jump scotty_talk_check
 
 label scotty_fail:
-    s "I don't think you really understand why I left."
+    s "Typical hooman... I don't think you get why I left."
     $ isPresenting = False
     $ presented = 0
     python:
@@ -583,11 +584,13 @@ label scotty_fail:
 label end:
     s "I'm so happy you figured it out -- if you promise that these issues will never happen again, all the dogs will come back to Earth!"
     player "I promise!"
-    jump end_end
-label end_end:
-    scene bg studio
-    # show woman shocked at tophalf
+    call end_end
 
+label end_end:
+    hide screen inventory_item_description
+    hide screen returnToClinic
+    scene bg studio
+    show woman shocked at tophalf
     e "Breaking News: One dog has returned to Earth!"
     e "... can we convince the rest?"
-    return
+    $ MainMenu(confirm=False)()
