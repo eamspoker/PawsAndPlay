@@ -289,7 +289,6 @@ label mapScene:
     hide screen map
     player "I think I have to find Scotty right now since the director mentioned that the map would take me to where I have to go."
     show screen level
-    player "Let me try touching the map."
    
     # Add screen for the clickable map
     jump repeatMap
