@@ -167,9 +167,9 @@ label start:
     show bg task
 
     man "Hello! I am the Director Of Pets. You must've seen the news."
-    man "We need your help in bringing back the pets. We are choosing you to do this because we have heard of your ability to talk to pets and your great negotiation skills and your skills with pets!"
+    man "We need your help in bringing back the pets."
+    man "We are choosing you to do this because we have heard of your ability to talk to pets and your great negotiation skills and your skills with pets!"
     man "Hope you don't disappoint us!"
-    man "We will be giving you certain things to help you on your journey!"
 
     # menu choices: #menus can have labels
     #     "What will you do?"
@@ -237,19 +237,18 @@ label start:
 
     # man "Enough with the interviews and what not. We don't have time. The world is collapsing without the animals. The ecosystem is going to hell! We shall all perish if [name] does not succeed in the task. Stop holding [pronoun] back and let [pronoun] go."
     # man "We are giving you some resources to take with you when you leave for mars. They will come in handy for the starting few situations you might get into. We will always be available through satellite phone should you need any assistance. But remember you have to call for assistance only when it's extremely essential"
-    man "If you go in through the room, you will see a backpack that has some resources useful to attract the attention of the pets and win their trust and a map of the areas showing where the pets might be based on their GPS trackers. "
+    man "If you go in through the room, you will see a backpack with some helpful resources and a map of the areas showing where the pets might be. "
     man "You might be wondering about how you would get to Mars? Don't worry, the map is magic!" 
     man "As soon as you tap on the glowing location, it will take you to where the pet is."
-    man "That is all the information I can give at the moment. You need to hurry up to get to Mars to bring the pets back. The glowing portal will only exist for a short while. Good luck!"
+    man "You need to hurry up to get to Mars to bring the pets back. The glowing portal will only exist for a short while. Good luck!"
 
     # Show the bag 
         # Character saying - let me check the bag
     scene bg room
     show backpack color at backpackPosition
-    player "Hmm... The director asked me to come here! Oh right there's the bag."
+    player "Hmm... The director asked me to come here! Oh right, there's the backpack."
     hide backpack color
     show screen backpack
-    player "Let's see what's in it."
     jump repeat
 
 label repeat:
@@ -271,7 +270,6 @@ label selectBackpack:
     scene bg nobone
     player "What do we have here?"
     show screen map
-    player "I should figure out where I am supposed to be right now."
     jump mapClickRepeat
     
 
@@ -358,7 +356,7 @@ label aarthi_start:
     scene background
     show dog at left
     player "Hello there, Doggo! I've come all the way from Earth to bring you back."
-    s "I was expecting you! I'm Scotty."
+    s "Woof! Woof! I'm Scotty."
     player "Hi Scotty. Can you help me understand why all the pets decided to leave Earth?"
     s "Look at dis collar."
     show collar at upper_position with easeinright
@@ -386,6 +384,7 @@ label reconsider_decision:
 label end_game:
     hide dog
     hide checklist
+    hide background
     $ renpy.movie_cutscene("images/portal_earth.webm")
 
    
@@ -450,7 +449,7 @@ label hidden_objects_intro:
     show screen checkbox with easeinright
     show screen checkbox_display with easeinright
     "[[Click on checklist icon to show/hide list.]"
-    player "I guess once I go in, I can just put items to my backpack."
+    player "I guess once I go in, I can just put items in my backpack."
     show screen inventory_display_toggle with easeinleft
     "[[Click on bag icon to open bag.]"
     player "Let's head in!"
@@ -561,7 +560,7 @@ label scotty_talk(key, name, optionDict, isGood):
 
 
 label scotty_strike:
-    s ".... doesn't make any sense."
+    s ".... that don't smell right. Think again. Dig deeper."
     "[[Scotty was unconvinced by your explanation]"
     $ trust_level -= 10
     jump scotty_talk_check
