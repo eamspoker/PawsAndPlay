@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/screens.rpy", line 1616: expected a keyword argument or end of line.
-    action Function(aaa);
-                        ^
+File "game/script.rpy", line 445: end of line expected.
+    show screen checkbox easeinright
+                         ^
 
 Ren'Py Version: Ren'Py 8.2.1.24030407
-Tue Apr 23 17:55:47 2024
+Fri Apr 26 09:11:48 2024

@@ -1514,7 +1514,7 @@ screen inventory_display_toggle:
 
 
 default item_descriptions = {"images/bowls.png": "dirty food bowl", "images/bowlwater.png": "dirty water bowl", 
-                            "images/soap.png": "bar of soap",  "images/bill.png": "paid medical bill", "images/dog_toys.png": "bunch of dog toys", "images/torn_leash.png": "a torn leash"}
+                            "images/soap.png": "dog shampoo",  "images/bill.png": "paid medical bill", "images/dog_toys.png": "bunch of dog toys", "images/torn_leash.png": "a torn leash"}
                             
 default inventory_icons = {"images/bowls.png": "images/bowls_icon.png", "images/bowlwater.png": "images/bowlwater_icon.png", 
                             "images/soap.png": "images/soap_icon.png", "images/bill.png":"images/bill_icon.png", "images/dog_toys.png":"images/dog_toys_icon.png", "images/torn_leash.png":"images/torn_leash_icon.png"}
@@ -1564,7 +1564,7 @@ style inv_button_text:
 screen returnToClinic(currentLabel):
     frame:
         xalign 0
-        yalign 0.3
+        yalign 0.5
         window:
             background "#07b3b0ff"
             xsize 200
@@ -1578,29 +1578,27 @@ screen returnToClinic(currentLabel):
                             Hide("hidden_objects"), Jump("clinic")]
 
 
-
-
 screen inventory_item_description:
     # use this based on your preference
     # modal True
     frame:
-        xalign 0.0
-        yalign 0.14
+        xalign 0.069
+        yalign 0.275
         window:
             background "#aaaaaaff"
             xsize 200
-            ysize 150
+            ysize 100
             text item_description:
                 xfill True
                 yfill True
     
     frame:
-        xalign 0.4
+        xalign 0.19
         yalign 0
         window:
             background "#3e3108ff"
-            xsize 1080
-            ysize 450
+            xsize 1290
+            ysize 250
             hbox:
                 box_wrap True
                 box_wrap_spacing 10
@@ -1609,15 +1607,16 @@ screen inventory_item_description:
                 yoffset 20
                 style_prefix "inv"
                 for item in inventory_items:
-                    imagebutton:
-                        xsize 200
-                        ysize 200
-                        idle inventory_icons[item]
-                        action [ToggleScreen("inventory_item_description"), Call("scotty_talk", item, item_descriptions[item], inventory_options[item], hidden_items[item][5])]
-                        unhovered SetVariable("item_description", "")
-                        selected False
-                        hovered SetVariable("item_description", item_descriptions.get(item))
-                
+                    if(not hasPresented[item]):
+                        imagebutton:
+                            xsize 200
+                            ysize 200
+                            idle inventory_icons[item]
+                            action [Call("scotty_talk", item, item_descriptions[item], inventory_options[item], hidden_items[item][5])]
+                            unhovered SetVariable("item_description", "")
+                            selected False
+                            hovered SetVariable("item_description", item_descriptions.get(item))
+                    
 
 
 
@@ -1631,7 +1630,7 @@ default items_found = 0
 # x, y, if it's been found, checklist text, color of checklist text, is it good
 default hidden_items = {"images/bowls.png": [150,650,False,"-Food bowl", "#000000", False],
                         "images/bowlwater.png": [25, 650, False, "-Water bowl","#000000", False],
-                        "images/soap.png": [400, 400, False, "-Soap","#000000", True],
+                        "images/soap.png": [400, 400, False, "-Shampoo","#000000", True],
                         "images/bill.png": [1200, 20, False, "-Medicine & vet bills","#000000", True],
                         "images/dog_toys.png": [0, 950, False, "-Dog toys","#000000", True],
                         "images/torn_leash.png": [1400, 150, False, "-Leash","#000000", False],

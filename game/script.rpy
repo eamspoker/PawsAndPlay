@@ -66,7 +66,7 @@ define levelCheck =  False
 define mapClickCheck = False
 # image portal movie = Movie(play="images/bg/portal_movie.webm")
 image portal_movie = Movie(channel="movie_dp", play = "movies/portal_movie.webm", loop = False,keep_last_frame = True)
-image portal_Mars = Movie(channel="movie_dp", play="movies/portal_Mars.webm", loop = False,keep_last_frame = True)
+image portal_mars = Movie(channel="movie_dp", play="movies/portal_mars.webm", loop = False,keep_last_frame = True)
 image portal_combined = Movie(channel="movie_dp", play="movies/portal_combined.webm", loop=False,keep_last_frame = True)
 
 screen backpack:
@@ -157,7 +157,7 @@ label start:
     scene bg desert2
     e "Not one pet - not even a single one! "
     scene bg desert3
-    e "This is very, very astonishing!"
+    e "This is very very astonishing!"
 
     scene bg studio
     show woman shocked at tophalf
@@ -166,10 +166,10 @@ label start:
     hide woman
     show bg task
 
-    man "Hello! I am the Director Of Pets. You must have seen the news."
+    man "Hello! I am the Director Of Pets. You must've seen the news."
     man "We need your help in bringing back the pets. We are choosing you to do this because we have heard of your great negotiation skills and your skills with pets!"
     man "Hope you don't disappoint us!"
-    man "We will be giving you certain things to help you on your journey! Good luck!"
+    man "We will be giving you certain things to help you on your journey!"
 
     # menu choices: #menus can have labels
     #     "What will you do?"
@@ -184,61 +184,62 @@ label start:
     #         man "Good. We will be giving you certain things to help you on your journey! Good luck!"
     #         # jump choices
 
-    scene bg studio
-    show woman shocked at tophalf
+    # scene bg studio
+    # show woman shocked at tophalf
 
-    e "BREAKING NEWS!"
-    e "We have a new update on the no pet situation!"
-    e "Someone has volunteered to go negotiate with all the pets!"
-    e "Let's go interview that person before they vanish off to Mars."
+    # e "BREAKING NEWS!"
+    # e "We have a new update on the no pet situation!"
+    # e "Someone has volunteered to go negotiate with all the pets!"
+    # e "Let's go interview that person before they vanish off to mars."
 
-    menu gender: #menus can have labels
-        "What gender would your character be?"
-        "Female":
-            $ female = True
-            $ pronoun = "her"
-            # jump somewhere_else_maybe
-            # man "Good. We will be giving you certain things to help you on your journey! Good luck!"
-            # jump choices 
-        "Male":
-            $ female = False
-            $ pronoun = "him"
-            # jump somewhere_else_maybe
-            # man "Good. We will be giving you certain things to help you on your journey! Good luck!"
-            # jump choices
-    if female:
-        scene bg studio
-        show woman interviewing at interviewHalfAnchor
-        show player female interviewing at playerHalfFemaleInterview
-        e "Our player is an amazing girl!"
-        e "Let's find out who is our saviour?"
-        $ name = renpy.input("Name your character!", "BadMustard").strip() or "BadMUstard"
-        e "Welcome, [name] to the news set."
-        e "I am pretty sure you must be nervous about this task. Can we know more about your background? We would love to -"
+    # menu gender: #menus can have labels
+    #     "What gender would your character be?"
+    #     "Female":
+    #         $ female = True
+    #         $ pronoun = "her"
+    #         # jump somewhere_else_maybe
+    #         # man "Good. We will be giving you certain things to help you on your journey! Good luck!"
+    #         # jump choices 
+    #     "Male":
+    #         $ female = False
+    #         $ pronoun = "him"
+    #         # jump somewhere_else_maybe
+    #         # man "Good. We will be giving you certain things to help you on your journey! Good luck!"
+    #         # jump choices
+    # if female:
+    #     scene bg studio
+    #     show woman interviewing at interviewHalfAnchor
+    #     show player female interviewing at playerHalfFemaleInterview
+    #     e "Our player is an amazing girl!"
+    #     e "Let's find out who is our saviour?"
+    #     $ name = renpy.input("Name your character!", "BadMustard").strip() or "BadMUstard"
+    #     e "Welcome, [name] to the news set."
+    #     e "I am pretty sure you must be nervous about this task. Can we know more about your background? We would love to -"
 
-        # else:
-        #     e "[persistent.mcName], you came back"
-        #     e "if you love something set it free, if it come back KILL IT BEFORE IT GETS AWAY AGAIN..."
+    #     # else:
+    #     #     e "[persistent.mcName], you came back"
+    #     #     e "if you love something set it free, if it come back KILL IT BEFORE IT GETS AWAY AGAIN..."
 
-    else:
-        scene bg studio
-        show woman interviewing at interviewHalfAnchor
-        show player male interviewing at playerHalfMaleInterview
-        e "Our player is an amazing guy!"
+    # else:
+    #     scene bg studio
+    #     show woman interviewing at interviewHalfAnchor
+    #     show player male interviewing at playerHalfMaleInterview
+    #     e "Our player is an amazing guy!"
        
-        $ name = renpy.input("Name your character!", "BadMustard").strip() or "BadMUstard"
+    #     $ name = renpy.input("Name your character!", "BadMustard").strip() or "BadMUstard"
         
-        e "Welcome, [name] to the news set."
-        e "I am pretty sure you must be nervous about this task. Can we know more about your background? We would love to -"
+    #     e "Welcome, [name] to the news set."
+    #     e "I am pretty sure you must be nervous about this task. Can we know more about your background? We would love to -"
     
-    hide woman shocked
-    hide player female 
-    show bg task
+    # hide woman shocked
+    # hide player female 
+    # show bg task
 
-    man "Enough with the interviews and whatnot. We don't have the time. The world is collapsing without the animals. The ecosystem is going to hell! We shall all perish if [name] does not succeed in the task."
-    man "Stop holding [pronoun] back and let [pronoun] go."
+    # man "Enough with the interviews and what not. We don't have time. The world is collapsing without the animals. The ecosystem is going to hell! We shall all perish if [name] does not succeed in the task. Stop holding [pronoun] back and let [pronoun] go."
+    # man "We are giving you some resources to take with you when you leave for mars. They will come in handy for the starting few situations you might get into. We will always be available through satellite phone should you need any assistance. But remember you have to call for assistance only when it's extremely essential"
     man "If you go in through the room, you will see a backpack that has some resources useful to attract the attention of the pets and win their trust and a map of the areas showing where the pets might be based on their GPS trackers. "
-    man "You might be wondering how would you get to Mars? Don't worry, the map is magic and as soon as you tap on the glowing location showing where the pet is."
+    man "You might be wondering about how you would get to Mars? Don't worry, the map is magic!" 
+    man "As soon as you tap on the glowing location, it will take you to where the pet is."
     man "That is all the information I can give at the moment. You need to hurry up to get to Mars to bring the pets back. The glowing portal will only exist for a short while. Good luck!"
 
     # Show the bag 
@@ -248,7 +249,7 @@ label start:
     player "Hmm... The director asked me to come here! Oh right there's the bag."
     hide backpack color
     show screen backpack
-    player "Let's see what's in it"
+    player "Let's see what's in it."
     jump repeat
 
 label repeat:
@@ -268,9 +269,9 @@ label selectBackpack:
 
     hide screen backpack 
     scene bg nobone
-    player "Oh what do we have here?"
+    player "What do we have here?"
     show screen map
-    player "Let me look at where I am supposed to go right now."
+    player "I should figure out where I am supposed to be right now."
     jump mapClickRepeat
     
 
@@ -281,14 +282,14 @@ label selectMapClickCheck:
     if mapClickCheck:
         jump mapScene
     else:
-        man "You need to click the map to access it!"
+        man "You need to click on the map to access it!"
         jump mapClickRepeat
 
 label mapScene:
     # Show map here
     show bg map
     hide screen map
-    player "The director mentioned that the map would take me to the place I had to be near"
+    player "I think I have to find Scotty right now since the director mentioned that the map would take me to where I have to go."
     show screen level
     player "Let me try touching the map."
    
@@ -303,7 +304,7 @@ label selectLevelCheck:
     if levelCheck:
         jump portalToMars
     else:
-        man "Click on the level to go to it!"  # Go back to the start label if the backpack button wasn't clicked
+        man "Click on the level!"  # Go back to the start label if the backpack button wasn't clicked
         jump repeat
 
 label portalToMars:
@@ -311,11 +312,34 @@ label portalToMars:
     hide screen level
     show portal_combined
     player "Ahhhhh what's happening?"
-    jump MarsScene
+    jump marsScene
 
-label MarsScene:
+label marsScene:
     scene background
     player "I think I am on Mars."
+   
+
+    # $ renpy.movie_cutscene("images/bg/portal_movie.webm")
+
+    
+    
+    
+
+
+
+
+    
+
+    # Scene of open map
+        # Clicking on the first place
+    
+    # Portal
+
+
+
+    # 
+    
+    # This ends the game.
     jump aarthi_start
 
 # Start of the game
@@ -330,7 +354,6 @@ transform upper_position:
 define y = Character('You', color="#c8ffc8")
 define s = Character('Scotty', color="#ff8080")
 label aarthi_start:
-    scene background
     show dog at left
     y "Hello there, Doggo! I've come all the way from Earth to bring you back."
     s "I was expecting you! I'm Scotty."
@@ -351,7 +374,7 @@ label aarthi_start:
                 s "Take your time. It's important for all of us."
                 jump reconsider_decision
 label game_progress:
-    y "Let's start by visiting the veterinarian first."
+    y "Let's start by investigating the house first."
     jump emily_start
 label reconsider_decision:
     y "I think I can do it."
@@ -360,19 +383,21 @@ label reconsider_decision:
    
 # The game starts here.
 label emily_start:
+    call hidden_objects_intro
     scene vetclinic
     v "Hi, how may I help you today?"
     player "I was chosen to bring back the pets from Mars to Earth."
-    player "But before they come, they wanted me to interview a vet expert to learn more about how pets SHOULD be taken care of."
+    player "But before they come, they wanted me to learn more about how pets SHOULD be taken care of."
     v "Oooh, we thought you looked famillar -- we remember seeing you on the news!"
     v "We would love to help!"
     call clinic
-    player "I learned a lot and now know what items to look for in Scotty's home environment to figure out why he left!"
-    jump hidden_objects
+    player "I think I know how to use the evidence from in Scotty's home to explain why he left!"
+    jump scotty_talk_start
     return
 
     
 label clinic:
+    hide screen inventory_item_description
     scene vetclinic
     v "What questions do you have?"
     menu questions:
@@ -386,13 +411,14 @@ label clinic:
             v "A lot of this expense is the result of veterinary bills and pet medication."
             jump questionsContinue
         "How much time and attention does a young pet need?":
-            v "A LOT! Its so important to properly socialize your pet" 
-            v "You can do this by taking them for regular walks (and making sure their leash/harness is in good shape!)"
+            v "Puppies require at least 3 hours of engaged interaction a day!" 
+            v "Engaged interactions involve socializing your pet by taking them for regular walks (and making sure their leash/harness is in good shape!)"
             v "Or you can give your pets toys and other stimulation objects to keep them busy."
             jump questionsContinue
         "How can we make sure that we are providing the best environment for our pet?":
-            v "By listening to your pets body language and making sure they are in tiptop physical shape."
-            v "Having regular grooming sessions and baths will help keep your pet clean, happy, and healthy!"
+            v "By listening to your pet's body language and making sure they are in tiptop physical shape."
+            v "If your dog has an odor emitting from their ears or matted fur, this can attract parasites like ticks and fleas."
+            v "And is a sign that your pet needs more regular grooming sessions."
             jump questionsContinue
 
     menu questionsContinue:
@@ -409,17 +435,26 @@ label clinic:
 
 
 
+label hidden_objects_intro:
+    scene bg desert3
+    player "I guess this is Scotty's house!"
+    player "I still have the checklist of things Scotty wanted me to look at."
+    show screen checkbox with easeinright
+    player "I guess once I go in, I can just put items to my backpack."
+    show screen inventory_display_toggle with easeinleft
+    "[[Click on objects to add them to your bag. Click on the bag icon to check on your items any time!]"
+    player "Let's head in!"
+
+    scene bg bedroom
+    show screen hidden_objects
+    jump hidden_objects
+
 label hidden_objects:
 
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.
-    scene bg bedroom
-    show screen hidden_objects
-    show screen inventory_display_toggle
-    show screen checkbox
     $ lastPlace = ""
-    show screen returnToClinic("hidden_objects")
     pause
 
     
@@ -435,22 +470,22 @@ label hidden_objects_check:
 
 define s = Character("Scotty")
 label found_all:
-    player "Okay, I'm all done!"
-    player "Let's head back to Mars!"
+    player "Okay, I've finished investigating the house."
+    hide screen checkbox with easeoutright
+    player "I should talk to a veterinary expert to make sense of all of this."
     $ temp_items = inventory_items
-    jump scotty_talk_start
+    return
 
 
 label scotty_talk_start:
     scene background
-    show screen inventory_display_toggle
-    hide screen checkbox
+    show screen inventory_item_description
     show dog
     $ lastPlace = ""
     show screen returnToClinic("scotty_talk_start")
     $ trust_level = 30
     show screen trust_meter_screen
-    s "Tell me, what have you learned back on Earth?"
+    s "Show me what you've learned on Earth."
     $ isPresenting = True
 
 label scotty_talk_loop:
@@ -461,6 +496,7 @@ label scotty_talk_check:
         jump scotty_fail
 
     if presented == 0:
+        "[[Click on items in your backpack to present them to Scotty]"
         jump scotty_talk_loop
 
     if presented < total_hidden:
@@ -477,22 +513,22 @@ label scotty_talk(key, name, optionDict, isGood):
     if hasPresented[key]:
         s "You've already told me about this."
         return
-    s "Tell me, what is this [name] evidence of?"
+    s "What's this [name] evidence of?"
     $ presented += 1
     $ hasPresented[key] = True
     menu:
-        "Humanity treating pets well!":
+        "Humans doing something right!":
             if not isGood:
                 jump scotty_strike
             if trust_level < 100:
                 $ trust_level += 10 
             
-        "Something that humans need to do better!":
+        "Humans doing something wrong!":
             if isGood:
                 jump scotty_strike
             if trust_level < 100:
                 $ trust_level += 10 
-    s "Hmmm... why do you think this is evidence of that?"
+    s "Why do you think this is evidence of that?"
     $ optionArray = list(optionDict.keys())
     menu:
         "[optionArray[0]]":
@@ -537,6 +573,11 @@ label scotty_fail:
 label end:
     s "I'm so happy you figured it out -- if you promise that these issues will never happen again, all the dogs will come back to Earth!"
     player "I promise!"
-    "Breaking News: All dogs have returned to Earth!"
-    "... now what about the cats?"
-    jump start
+    jump end_end
+label end_end:
+    scene bg studio
+    # show woman shocked at tophalf
+
+    e "Breaking News: One dog has returned to Earth!"
+    e "... can we convince the rest?"
+    return
