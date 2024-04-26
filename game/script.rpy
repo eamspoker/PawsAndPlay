@@ -168,7 +168,7 @@ label start:
 
     man "Hello! I am the Director Of Pets. You must've seen the news."
     man "We need your help in bringing back the pets."
-    man "We are choosing you to do this because we have heard of your ability to talk to pets and your great negotiation skills and your skills with pets!"
+    man "We are choosing you to do this because we have heard of your ability to talk to pets and your great negotiation skills!"
     man "Hope you don't disappoint us!"
 
     # menu choices: #menus can have labels
