@@ -1669,13 +1669,25 @@ screen hidden_objects:
                         xpos position[0] ypos position[1]
                         focus_mask True
 
+
 screen checkbox:
+    zorder 92
+    frame:
+        xalign 1.0
+        yalign 0
+        imagebutton:
+            idle "images/checklist_icon.png"
+            action ToggleScreen("checkbox_display")
+
+    on "hide" action Hide("checkbox_display")
+
+screen checkbox_display:
     window:
         background "images/paper.jpg"
         xsize 250
         ysize 850
         xalign 1.0
-        yalign 0.0
+        yalign 0.5
         hbox:
             box_wrap True
             box_wrap_spacing 20

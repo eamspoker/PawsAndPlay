@@ -342,43 +342,51 @@ label marsScene:
     # This ends the game.
     jump aarthi_start
 
-# Start of the game
 # Define images
 image background = "bg_planet.jpg"
 image dog = im.Scale("scotty.png", 800, 800)
 image bone = "bone.png"
 image collar = im.Scale("collar.png", 400, 400)
+image checklist = im.Scale("checklist.png", 400, 400)
+image hearts = "images/hearts.png"
 transform upper_position:
-    xalign 0.8  
-    yalign 0.5  
-define y = Character('You', color="#c8ffc8")
-define s = Character('Scotty', color="#ff8080")
+    xalign 0.8
+    yalign 0.5
+define player = Character('You', color="#C8FFC8")
+define s = Character('Scotty', color="#FF8080")
 label aarthi_start:
+    scene background
     show dog at left
-    y "Hello there, Doggo! I've come all the way from Earth to bring you back."
+    player "Hello there, Doggo! I've come all the way from Earth to bring you back."
     s "I was expecting you! I'm Scotty."
-    y "Hi Scotty. Can you help me understand why all the pets decided to leave Earth?"
-    s "Take a look at this collar."
+    player "Hi Scotty. Can you help me understand why all the pets decided to leave Earth?"
+    s "Look-look at dis collar."
     show collar at upper_position with easeinright
-    y "There's a name and an address here."
-    s "Exactly. It's the name of my previous owner and the address of my vet." 
-    y "Oh... Should I take you back there?"
-    s "Before I consider going back to Earth, I need to be sure that humans have learned how to properly care for us."
-    s "I need you to speak with a veterinarian expert and investigate my former home. Find out why I had to leave."
-    s "If you can figure it out, I'll trust that you understand how to care for pets and consider returning."
+    player "There's a name and an address here."
+    s "Yep yep, dat's where me hooman lived."
+    player "Oh...Should I take you back there?"
+    s "Hmm, before me think 'bout goin' back to Earth, me need make sure hoomans learned how to do the good care for us."
+    s "You need know more 'bout how me was treated. Peep dis!"
+    hide collar
+    show checklist at upper_position with easeinright
+    s "Go to me hooman's house and keep sniffin' 'round for these things... they might tell you something."
     menu:
             "Deal!":
-                s "Good luck! All of us here are hoping you succeed."
+                s "Woof! Good luck! All of us here are rootin' for ya."
                 jump game_progress
             "I need to think about this...":
-                s "Take your time. It's important for all of us."
+                s "Woof! Take your time. It's big important for all of us."
                 jump reconsider_decision
 label game_progress:
-    y "Let's start by investigating the house first."
-    jump emily_start
+    player "Let's start by visiting your Earth home!"
+    jump end_game
 label reconsider_decision:
-    y "I think I can do it."
-    jump emily_start
+    player "I think I can do it."
+    jump end_game
+label end_game:
+    hide dog
+    hide checklist
+    $ renpy.movie_cutscene("images/portal_earth.webm")
 
    
 # The game starts here.
@@ -440,10 +448,12 @@ label hidden_objects_intro:
     player "I guess this is Scotty's house!"
     player "I still have the checklist of things Scotty wanted me to look at."
     show screen checkbox with easeinright
+    "[[Click on checklist icon to show/hide list.]"
     player "I guess once I go in, I can just put items to my backpack."
     show screen inventory_display_toggle with easeinleft
-    "[[Click on objects to add them to your bag. Click on the bag icon to check on your items any time!]"
+    "[[Click on bag icon to open bag.]"
     player "Let's head in!"
+    "[[Click on objects to add them to your bag.]"
 
     scene bg bedroom
     show screen hidden_objects
