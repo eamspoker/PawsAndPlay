@@ -450,11 +450,10 @@ label hidden_objects_intro:
     "[[Click on checklist icon to show/hide list.]"
     player "I guess once I go in, I can just put items in my backpack."
     show screen inventory_display_toggle with easeinleft
-    "[[Click on bag icon to open bag.]"
     player "Let's head in!"
-    "[[Click on objects to add them to your bag.]"
 
     scene bg bedroom
+    "[[Click on objects to add them to your bag.]"
     show screen hidden_objects
     jump hidden_objects
 
